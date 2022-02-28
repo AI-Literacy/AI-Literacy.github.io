@@ -1,0 +1,27 @@
+name: deploy
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install Packages
+      uses: borales/actions-yarn@v2.0.0
+      with:
+        cmd: install
+    - name: Build page
+      uses: borales/actions-yarn@v2.0.0
+      with:
+        cmd: build
+      env:
+        CI: ""
+    - name: Deploy to gh-pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        publish_dir: ./build
