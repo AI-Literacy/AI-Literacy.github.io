@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import { getAuth, GoogleAuthProvider, signInWithRedirect } from 'firebase/auth';
 import './App.css';
 import { PacmanLoader } from 'react-spinners';
@@ -6,6 +6,7 @@ import { PacmanLoader } from 'react-spinners';
 function App() {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const UserContext = createContext(user);
 
   useEffect(() => {
     const auth = getAuth();
@@ -36,7 +37,7 @@ function App() {
     : null;
 
   return (
-    <>
+    <UserContext.Provider value={user}>
     { addOn }
     <div className="app flex justify-center h-full align-middle">
       {
@@ -54,7 +55,7 @@ function App() {
         ) : null
       }
     </div>
-    </>
+    </UserContext.Provider>
   );
 }
 
