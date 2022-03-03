@@ -1,16 +1,16 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { getAuth, GoogleAuthProvider, signInWithRedirect } from 'firebase/auth';
-import { User } from '@firebase/auth-types';
-import './App.css';
-import { PacmanLoader } from 'react-spinners';
-import Nav from './Nav';
 import { 
   HashRouter as Router,
   Routes,
   Route
 } from 'react-router-dom';
 
-const UserContext = createContext<User | null>(null);
+import './App.css';
+import Nav from '../Nav';
+import UserContext from './UserContext';
+import LoadingOverlay from '../LoadingOverlay';
+
 
 const Welcome = () => {
   const user = useContext(UserContext);
@@ -79,17 +79,7 @@ function App() {
     });
   })
 
-  const addOn = loading 
-    ? (
-      <div className='fixed w-full h-full flex align-center z-50 bg-black bg-opacity-50'>
-        <div className="flex w-full h-full justify-center">
-          <div className="flex self-center">
-            <PacmanLoader color={'white'} size={100} />
-          </div>
-        </div>
-      </div>
-    )
-    : null;
+  const addOn = loading ? <LoadingOverlay /> : null;
 
   return (
     <UserContext.Provider value={user}>
