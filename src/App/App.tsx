@@ -79,11 +79,9 @@ function App() {
     });
   })
 
-  const addOn = loading ? <LoadingOverlay /> : null;
-
   return (
     <UserContext.Provider value={user}>
-      { addOn }
+      { loading ? <LoadingOverlay /> : null }
       { user ? <Nav /> : null }
       <Router>
         <Routes>
