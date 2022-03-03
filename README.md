@@ -1,46 +1,40 @@
-# Getting Started with Create React App
+# Getting started
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Installation
+To get started with this codebase, you'll need to install [`yarn`](https://yarnpkg.com/), a package manager that we're using in this project. The most straightforward way to install `yarn` is using `npm`, the [Node Package Manager](https://docs.npmjs.com/). And, the best way to install `npm` is through `nvm`, the [Node Version Manager](https://github.com/nvm-sh/nvm).
 
-## Available Scripts
+### Installing `nvm`
+See the [Installing and Updating](https://github.com/nvm-sh/nvm#installing-and-updating) section of the NVM documentation for a command that you can run to install NVM. As of this writing, on my machine, it's
 
-In the project directory, you can run:
+```
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+```
 
-### `npm start`
+### Installing `node`
+Once you've installed NVM you can install `node` (and `npm` comes installed by default) with this command:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```
+nvm install node
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+By default, this will install the latest version.
 
-### `npm test`
+### Installing `yarn`
+You can install `yarn` with this command:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+npm install -g yarn
+```
 
-### `npm run build`
+### Installing project dependencies
+Once you've got `yarn` installed, navigate to this project directory using `cd` to change directories until you're in this folder. Then, run `yarn install`. You should see some output that indicates that `yarn` is looking for packages, downloading them, and linking them. Once it's done, you should regain control of the terminal and see a message that the installation was successful.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Running the codebase
+To run the website, navigate to this project directory using `cd` to change directories until you're in this folder. Then, run `yarn start`. You should see the website running in your browser.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+As you make changes to the code, the website will refresh automatically, in real time.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# Style
+We're using Angular-style component management for this project. In particular, that means that each folder should only represent one component. Each folder should have an `index.tsx` file that just exports the component from the file that's named with that component (this is just to make navigation in the IDE easier).
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Additionally, note that the authentication logic is handled mostly by `App.tsx` and users are required to authenticate before they can do anything else. Once authenticated, the user object is stored in the `UserContext.ts` file, which is exported from `App/` or could and also exported as default from `App/UserContext.ts`.
