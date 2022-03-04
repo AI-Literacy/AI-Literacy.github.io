@@ -20,7 +20,7 @@ const Nav = () => {
                 <div className="flex flex-row items-center hover:cursor-pointer">
                     <img
                         src={user.photoURL!}
-                        alt={user.displayName!}
+                        alt=""
                         className="rounded-full h-8 w-8 mr-2"
                     />
                     {user.displayName}

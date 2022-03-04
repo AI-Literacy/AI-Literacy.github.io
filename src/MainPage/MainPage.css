@@ -1,0 +1,12 @@
+.btn-wrapper {
+    @apply w-4/5 h-2/5 mx-auto;
+    @apply md:w-2/5 md:h-3/5;
+}
+
+.btn {
+    @apply flex flex-col border rounded;
+    @apply w-full h-full;
+    @apply justify-center items-center;
+    @apply border-purple-600 text-white;
+    @apply hover:bg-purple-400 hover:cursor-pointer hover:text-black;
+}
