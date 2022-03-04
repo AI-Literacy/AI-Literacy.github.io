@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getAuth, GoogleAuthProvider, signInWithRedirect } from 'firebase/auth';
 import { 
   HashRouter as Router,
@@ -11,31 +11,7 @@ import Nav from '../Nav';
 import UserContext from './UserContext';
 import LoadingOverlay from '../LoadingOverlay';
 import MainPage from '../MainPage';
-
-
-const NewGame = () => {
-  const user = useContext(UserContext);
-
-  return (
-    <div className="app flex justify-center h-5/6 align-middle">
-      {
-        user ? (
-          <div className="flex flex-col justify-center h-full align-middle">
-            <h1 className="text-3xl font-bold italic h-fit self-center">
-              Starting a new game...
-            </h1>
-            <img
-              src={user.photoURL!}
-              alt={user.displayName!}
-              className="rounded-full h-20 w-20 self-center mt-2"
-            />
-          </div>
-        ) : null
-      }
-    </div>
-  );
-}
-
+import NewGame from '../NewGame';
 
 function App() {
   const [user, setUser] = useState<any>(null);
@@ -60,8 +36,8 @@ function App() {
   return (
     <UserContext.Provider value={user}>
       { loading ? <LoadingOverlay /> : null }
-      { user ? <Nav /> : null }
       <Router>
+        { user ? <Nav /> : null }
         <Routes>
           <Route path='/' element={<MainPage />} />
           <Route path='/new-game' element={<NewGame />} />
