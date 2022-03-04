@@ -4,5 +4,10 @@ service cloud.firestore {
     match /{document=**} {
       allow read, write: if false;
     }
+
+    match /games/{game_id} {
+      allow read: if true;
+      allow write: if request.auth.uid == game_id;
+    }
   }
 }
