@@ -1,4 +1,9 @@
-import { doc, getDoc, getFirestore } from "firebase/firestore";
+import { 
+  doc, 
+  setDoc, getDoc, 
+  getFirestore, 
+  serverTimestamp 
+} from "firebase/firestore";
 
 export function validateGameCodeStructure(newGameCode: string) {
   // Long enough
@@ -26,4 +31,35 @@ export async function validateGameCode(newGameCode: string) {
   }
 
   return '';
+}
+
+interface GameParams {
+  code: string;
+  dimensions: number[];
+  numRounds: number;
+  generation: string;
+}
+
+export async function makeNewGame(params: GameParams, uid: string) {
+  // Validate the game code
+  const gcValid = await validateGameCode(params.code);
+  if (gcValid) return;
+
+  // Push the game to the database
+  const db = getFirestore();
+  await setDoc(
+    doc(db, 'users', uid),
+    { activeGame: params.code },
+    { merge: true }
+  )
+  await setDoc(
+    doc(db, 'games', params.code),
+    {
+      owner: uid,
+      createdAt: serverTimestamp(),
+      dimensions: params.dimensions,
+      numRounds: params.numRounds,
+      generation: params.generation,
+    }
+  );
 }

@@ -1,10 +1,11 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useContext, useState } from "react";
 
 import { debounceTime, Subject } from "rxjs";
 import { mergeMap } from "rxjs/operators";
 
-import { validateGameCode } from "./NewGameUtils";
+import { makeNewGame, validateGameCode } from "./NewGameUtils";
 import styles from '../App/Form.module.css';
+import { UserContext } from "../App";
 
 
 const NewGame = () => {
@@ -21,16 +22,19 @@ const NewGame = () => {
     )
     .subscribe(setGCFeedback)
 
-  // Other state components (TODO: Anika & Isabel remove)
+  // Other state components
   const [dimensions, setDimensions] = useState<number[]>([30, 30]);
   const [rounds, setRounds] = useState<number>(3);
   const [generation, setGeneration] = useState<string>('10% spawn probability');
+  const user = useContext(UserContext);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    const gameCodeValid = await validateGameCode(gameCode);
-    if (!gameCodeValid) return;
+    makeNewGame(
+      { code: gameCode, dimensions, numRounds: rounds, generation },
+      user!.uid
+    )
   }
 
   return (

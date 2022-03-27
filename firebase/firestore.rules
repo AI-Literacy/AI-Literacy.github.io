@@ -24,7 +24,9 @@ service cloud.firestore {
       }
       
       function hasRequiredFields() {
-      	return request.resource.data.keys().hasAll(['owner', 'createdAt']);
+      	return request.resource.data.keys().hasAll([
+          'owner', 'createdAt', 'dimensions', 'numRounds', 'generation'
+        ]);
       }
       
     	allow get: if isSignedIn();
@@ -37,7 +39,7 @@ service cloud.firestore {
       	return request.auth.uid == uid;
       }
       
-      function hasRequiredFields() {
+      function hasRequiredFieldsOnCreate() {
       	return request.resource.data.keys().hasAll(['displayName', 'activeGame'])
         			 && request.resource.data.activeGame == '';
       }
@@ -45,10 +47,11 @@ service cloud.firestore {
       function hasCleanedUp() {
       	return !request.resource.data.keys().hasAll(['activeGame']) // no change
         			 || request.resource.data.activeGame == resource.data.activeGame // no change
-        			 || !exists(/databases/$(database)/documents/games/$(resource.data.activeGame)); // old game deleted
+               || resource.data.activeGame == "" // adding for the first time
+        			 || !(exists(/databases/$(database)/documents/games/$(resource.data.activeGame))); // old game deleted
       }
       
-      allow create: if isSignedIn() && isOwner() && hasRequiredFields();
+      allow create: if isSignedIn() && isOwner() && hasRequiredFieldsOnCreate();
     	allow read: if isSignedIn() && isOwner();
       allow update: if isSignedIn() && isOwner() && hasCleanedUp();
     }
