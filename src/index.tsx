@@ -12,6 +12,7 @@ const firebaseConfig = {
   appId: "1:16828976693:web:d29182728ec4db7e80ab7c"
 };
 
+
 initializeApp(firebaseConfig);
 
 ReactDOM.render(

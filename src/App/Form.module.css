@@ -1,0 +1,20 @@
+.input {
+    @apply block mt-2;
+    @apply rounded-md;
+    @apply border-gray-300 shadow-sm;
+    @apply focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50;
+    @apply text-black;
+}
+
+.submit {
+    @apply border border-transparent;
+    @apply text-base font-medium rounded-md;
+    @apply text-white bg-indigo-600 hover:bg-indigo-700;
+    @apply py-2 px-4;
+    @apply md:py-2 md:text-lg md:px-6;
+}
+
+.error {
+    @apply ring ring-red-700 ring-opacity-100;
+    @apply focus:ring-red-700 focus:ring-opacity-100;
+}

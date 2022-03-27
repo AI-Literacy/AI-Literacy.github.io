@@ -1,0 +1,7 @@
+.btn {
+  @apply flex flex-col border rounded;
+  @apply w-full h-full;
+  @apply justify-center items-center;
+  @apply border-purple-600 text-white;
+  @apply hover:bg-purple-400 hover:cursor-pointer hover:text-black;
+}

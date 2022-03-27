@@ -1,36 +1,36 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import UserContext from '../App/UserContext';
 
 const Nav = () => {
-    const user = useContext(UserContext);
+  const user = useContext(UserContext);
 
-    if (!user) {
-        return null;
-    }
+  if (!user) {
+    return null;
+  }
 
-    return (
-        <nav className="flex justify-between flex-wrap bg-purple-600 p-4">
-            <div className="flex items-center flex-shrink-0 text-white mr-6">
-                <Link to="/">
-                    <span className="font-semibold text-xl tracking-tight">Smarter Carrots</span>
-                </Link>
-            </div>
-            <div className="w-auto flex-grow flex items-center">
-                <div className="flex-grow">
-                    {/* Eventually, put some links here */}
-                </div>
-                <div className="flex flex-row items-center hover:cursor-pointer">
-                    <img
-                        src={user.photoURL!}
-                        alt=""
-                        className="rounded-full h-8 w-8 mr-2"
-                    />
-                    {user.displayName}
-                </div>
-            </div>
-        </nav>
-    )
+  return (
+    <nav className="flex justify-between flex-wrap bg-purple-600 p-4">
+      <div className="flex items-center flex-shrink-0 text-white mr-6">
+        <Link to="/">
+          <span className="font-semibold text-xl tracking-tight">Rabbit Game</span>
+        </Link>
+      </div>
+      <div className="w-auto flex-grow flex items-center">
+        <div className="flex-grow">
+          {/* Eventually, put some links here */}
+        </div>
+        <div className="flex flex-row items-center hover:cursor-pointer">
+          <img
+            src={user.photoURL!}
+            alt=""
+            className="rounded-full h-8 w-8 mr-2"
+          />
+          {user.displayName}
+        </div>
+      </div>
+    </nav>
+  )
 }
 
 export default Nav;

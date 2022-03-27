@@ -4,10 +4,53 @@ service cloud.firestore {
     match /{document=**} {
       allow read, write: if false;
     }
-
+    
+    function isSignedIn() {
+    	return request.auth != null;
+    }
+    
+    
     match /games/{game_id} {
-      allow read: if true;
-      allow write: if request.auth.uid == game_id;
+      function isOwner() {
+        return request.auth.uid == resource.data.owner;
+      }
+
+      function isRequestedOwner() {
+        return request.auth.uid == request.resource.data.owner;
+      }
+      
+      function isOnlyOwner() {
+      	return request.resource.id == get(/databases/$(database)/documents/users/$(request.auth.uid)).data.activeGame
+      }
+      
+      function hasRequiredFields() {
+      	return request.resource.data.keys().hasAll(['owner', 'createdAt']);
+      }
+      
+    	allow get: if isSignedIn();
+      allow update, delete: if isSignedIn() && isOwner();
+      allow create: if isSignedIn() && isRequestedOwner() && isOnlyOwner() && hasRequiredFields();
+    }
+    
+    match /users/{uid} {
+    	function isOwner() {
+      	return request.auth.uid == uid;
+      }
+      
+      function hasRequiredFields() {
+      	return request.resource.data.keys().hasAll(['displayName', 'activeGame'])
+        			 && request.resource.data.activeGame == '';
+      }
+      
+      function hasCleanedUp() {
+      	return !request.resource.data.keys().hasAll(['activeGame']) // no change
+        			 || request.resource.data.activeGame == resource.data.activeGame // no change
+        			 || !exists(/databases/$(database)/documents/games/$(resource.data.activeGame)); // old game deleted
+      }
+      
+      allow create: if isSignedIn() && isOwner() && hasRequiredFields();
+    	allow read: if isSignedIn() && isOwner();
+      allow update: if isSignedIn() && isOwner() && hasCleanedUp();
     }
   }
 }
