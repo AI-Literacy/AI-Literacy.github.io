@@ -6,6 +6,7 @@ import { mergeMap } from "rxjs/operators";
 import { makeNewGame, validateGameCode } from "./NewGameUtils";
 import styles from '../App/Form.module.css';
 import { UserContext } from "../App";
+import { useNavigate } from "react-router";
 
 
 const NewGame = () => {
@@ -26,15 +27,20 @@ const NewGame = () => {
   const [dimensions, setDimensions] = useState<number[]>([30, 30]);
   const [rounds, setRounds] = useState<number>(3);
   const [generation, setGeneration] = useState<string>('10% spawn probability');
+  
   const user = useContext(UserContext);
-
+  const navigate = useNavigate();
+  
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    const code = gameCode;
 
-    makeNewGame(
-      { code: gameCode, dimensions, numRounds: rounds, generation },
+    const success = await makeNewGame(
+      { code, dimensions, numRounds: rounds, generation },
       user!.uid
     )
+
+    if (success) navigate(`/game/${code}`);
   }
 
   return (

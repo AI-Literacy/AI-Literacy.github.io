@@ -62,4 +62,6 @@ export async function makeNewGame(params: GameParams, uid: string) {
       generation: params.generation,
     }
   );
+
+  return true;
 }
